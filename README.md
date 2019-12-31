@@ -17,7 +17,8 @@ Initializr generates spring boot project with just what you need to start quickl
 
 
 Once you Generate and download the zip file, you should have similar POM file as:
-```...
+```xml
+
 <dependencies>
 
    <dependency>
@@ -47,14 +48,15 @@ Once you Generate and download the zip file, you should have similar POM file as
       <scope>runtime</scope>
    </dependency>
 
-   ...
+   
 </dependencies>
-...
+
 ```
 
 for this demo I use HikariDataSource as a default connection pool library by Spring Boot 2.2.2
 we need to have 2 separate DataSource and EntityManager one for the Writes(Master/Primary) and one for Reads(Slave/Secondary).
-```
+```yaml
+
 application.yml
 spring:
   datasource-write:
@@ -85,7 +87,7 @@ spring:
 as you see I have 2 data-source as: datasource-write and datasource-read with their own credentials.
 
 DataSource Configurations for WriteDB:
-```
+```java
 @Configuration
 @ConfigurationProperties("spring.datasource-write")
 @EnableTransactionManagement
@@ -125,7 +127,7 @@ public class DataSourceConfigWrite extends HikariConfig {
 
 DataSource Configurations for ReadDB:
 
-```
+```java
 @Configuration
 @ConfigurationProperties("spring.datasource-read")
 @EnableTransactionManagement
@@ -171,7 +173,7 @@ Write: ```com.ehsaniara.multidatasource.repository.writeRepository```
 Read: ```com.ehsaniara.multidatasource.repository.readRepository```
 
 you also need to set:
-```
+```java
 public final static String MODEL_PACKAGE = "com.ehsaniara.multidatasource.model";
 
 public final static Properties JPA_PROPERTIES = new Properties() {{
@@ -183,7 +185,7 @@ public final static Properties JPA_PROPERTIES = new Properties() {{
 ```
 and the actual logic are in the service layer:
 
-```
+```java
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
