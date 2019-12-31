@@ -1,8 +1,8 @@
-# Spring Boot 2 with Multiple DataSource for Postgres Data Replication
+# Spring Boot 2 with Multiple DataSource 
 
 There are times that even having the best DataBase (PostgresSql, Oracle, MySql, .. ) Tuning can not be as help-full as Application Level separating Read and Writes
 
-Spring Boot 2.2.2 with Multiple DataSource for Postgres Data Replication
+Spring Boot 2.2.2 with Multiple DataSource 
 ## Postgres Setup
 For This Demo you need 2.2.2 separate Postgres DataBase where one as Master and the other re one as a Replica.
 

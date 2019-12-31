@@ -1,5 +1,4 @@
-/.mvn/
-/HELP.md
+HELP.md
 /target/
 !.mvn/wrapper/maven-wrapper.jar
 
@@ -26,7 +25,7 @@
 /.nb-gradle/
 /build/
 
-/mvnw
-/mvnw.cmd
+mvnw
+mvnw.cmd
 
-/.mvn/**
+.mvn/**
