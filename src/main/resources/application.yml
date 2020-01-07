@@ -23,3 +23,4 @@ spring:
       minimum-idle: 5
       pool-name: ReadHikariPool
 
+

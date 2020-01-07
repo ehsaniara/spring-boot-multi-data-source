@@ -1,8 +1,7 @@
 package com.ehsaniara.multidatasource.service;
 
 import com.ehsaniara.multidatasource.model.Customer;
-import com.ehsaniara.multidatasource.repository.readRepository.CustomerReadRepository;
-import com.ehsaniara.multidatasource.repository.writeRepository.CustomerWriteRepository;
+import com.ehsaniara.multidatasource.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -14,16 +13,14 @@ import java.util.Optional;
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
-    private final CustomerReadRepository customerReadRepository;
-    private final CustomerWriteRepository customerWriteRepository;
+    private final CustomerRepository customerRepository;
 
-    public CustomerServiceImpl(CustomerReadRepository customerReadRepository, CustomerWriteRepository customerWriteRepository) {
-        this.customerReadRepository = customerReadRepository;
-        this.customerWriteRepository = customerWriteRepository;
+    public CustomerServiceImpl(CustomerRepository customerRepository) {
+        this.customerRepository = customerRepository;
     }
 
     public Optional<Customer> getCustomer(Long id) {
-        return customerReadRepository.findById(id);
+        return customerRepository.findById(id);
     }
 
     public Customer createCustomer(Customer customer) {
@@ -32,7 +29,7 @@ public class CustomerServiceImpl implements CustomerService {
         Assert.isNull(customer.getId(), "customer id should be null");
         Assert.notNull(customer.getName(), "Invalid customer name");
 
-        return customerWriteRepository.save(customer);
+        return customerRepository.save(customer);
     }
 
     public Customer updateCustomer(Customer customer) {
@@ -40,6 +37,6 @@ public class CustomerServiceImpl implements CustomerService {
         Assert.notNull(customer, "Invalid customer");
         Assert.notNull(customer.getId(), "Invalid customer id");
 
-        return customerWriteRepository.save(customer);
+        return customerRepository.save(customer);
     }
 }

@@ -15,6 +15,12 @@ Or Select the following share link:
 Spring Initializr
 Initializr generates spring boot project with just what you need to start quickly!start.spring.io
 
+for simplicity just run:
+```docker-compose up --force-recreate```
+
+the docker-compose.yml is already in the project which contains 2 PostgresSql in 2 different ports, with ```demo``` DataBase
+
+Note: you can always uninstall it as: ```docker-compose down``` if you needed to.
 
 Once you Generate and download the zip file, you should have similar POM file as:
 ```xml
@@ -219,4 +225,17 @@ public class CustomerServiceImpl implements CustomerService {
     }
 }
 ```
+Now if run this line you create customer in DB1:
+```
+curl -H "Content-Type: application/json" --request POST --data '{"name":"Jay"}'   http://localhost:8080/customer
+```
+OR
+```
+curl -H "Content-Type: application/json" --request PUT --data '{"id":1 , "name":"Jay ehsaniara"}'   http://localhost:8080/customer
+```
 
+But if you run this line you getting data from DB2:
+```
+ curl --request GET  http://localhost:8080/customer/1
+```
+Note: you need to insert customer manually in DB2 since it has no pre customer. and we haven't setup Postgres Replication yet

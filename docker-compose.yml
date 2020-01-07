@@ -1,0 +1,24 @@
+version: '3.1'
+services:
+  db1:
+    image: postgres
+    container_name: postgres1
+    volumes:
+      - ./postgres-data1:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: postgres_user_for_db_write
+      POSTGRES_USER: postgres
+      POSTGRES_DB: demo
+  db2:
+    image: postgres
+    container_name: postgres2
+    volumes:
+      - ./postgres-data2:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_PASSWORD: postgres_user_for_db_read
+      POSTGRES_USER: postgres
+      POSTGRES_DB: demo

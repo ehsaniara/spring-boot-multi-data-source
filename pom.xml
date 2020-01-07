@@ -11,7 +11,7 @@
     <groupId>com.example</groupId>
     <artifactId>demo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>demo</name>
+    <name>Spring Boot Multiple DataSource</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
