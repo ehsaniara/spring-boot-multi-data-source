@@ -7,6 +7,14 @@ Spring Boot 2.2.2 with Multiple DataSource
 For This Demo you need 2.2.2 separate Postgres DataBase where one as Master and the other re one as a Replica.
 
 
+for simplicity just run:
+```docker-compose up --force-recreate```
+
+the docker-compose.yml is already in the project which contains 2 PostgresSql in 2 different ports, with ```demo``` DataBase
+
+Note: you can always uninstall it as: ```docker-compose down``` if you needed to.
+
+
 ---
 
 ## Spring Boot Setup
@@ -14,13 +22,6 @@ From https://start.spring.io/ select **web**, **data-jpa**, **lombok**, **postgr
 Or Select the following share link:
 Spring Initializr
 Initializr generates spring boot project with just what you need to start quickly!start.spring.io
-
-for simplicity just run:
-```docker-compose up --force-recreate```
-
-the docker-compose.yml is already in the project which contains 2 PostgresSql in 2 different ports, with ```demo``` DataBase
-
-Note: you can always uninstall it as: ```docker-compose down``` if you needed to.
 
 Once you Generate and download the zip file, you should have similar POM file as:
 ```xml
