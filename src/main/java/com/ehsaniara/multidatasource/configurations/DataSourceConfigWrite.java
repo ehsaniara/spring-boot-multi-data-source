@@ -1,6 +1,5 @@
 package com.ehsaniara.multidatasource.configurations;
 
-import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -14,7 +13,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManagerFactory;
 
-import static com.ehsaniara.multidatasource.DemoApplication.JPA_PROPERTIES;
 import static com.ehsaniara.multidatasource.DemoApplication.MODEL_PACKAGE;
 
 /**
@@ -28,9 +26,11 @@ import static com.ehsaniara.multidatasource.DemoApplication.MODEL_PACKAGE;
         transactionManagerRef = "transactionManagerWrite",
         basePackages = {"com.ehsaniara.multidatasource.repository.writeRepository"}
 )
-public class DataSourceConfigWrite extends HikariConfig {
+public class DataSourceConfigWrite extends HikariConfigWrite {
 
-    public final static String PERSISTENCE_UNIT_NAME = "write";
+    public DataSourceConfigWrite(HikariWriteProperties hikariWriteProperties) {
+        super(hikariWriteProperties);
+    }
 
     @Bean
     public HikariDataSource dataSourceWrite() {
@@ -46,7 +46,7 @@ public class DataSourceConfigWrite extends HikariConfig {
             setPersistenceProviderClass(HibernatePersistenceProvider.class);
             setPersistenceUnitName(PERSISTENCE_UNIT_NAME);
             setPackagesToScan(MODEL_PACKAGE);
-            setJpaProperties(JPA_PROPERTIES);
+            setJpaProperties(JPA_WRITE_PROPERTIES);
         }};
     }
 

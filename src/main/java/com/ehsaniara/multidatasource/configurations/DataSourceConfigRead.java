@@ -1,6 +1,5 @@
 package com.ehsaniara.multidatasource.configurations;
 
-import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -14,7 +13,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManagerFactory;
 
-import static com.ehsaniara.multidatasource.DemoApplication.JPA_PROPERTIES;
 import static com.ehsaniara.multidatasource.DemoApplication.MODEL_PACKAGE;
 
 /**
@@ -28,10 +26,11 @@ import static com.ehsaniara.multidatasource.DemoApplication.MODEL_PACKAGE;
         transactionManagerRef = "transactionManagerRead",
         basePackages = {"com.ehsaniara.multidatasource.repository.readRepository"}
 )
-public class DataSourceConfigRead extends HikariConfig {
+public class DataSourceConfigRead extends HikariConfigRead {
 
-    public final static String PERSISTENCE_UNIT_NAME = "read";
-
+    public DataSourceConfigRead(HikariReadProperties hikariReadProperties) {
+        super(hikariReadProperties);
+    }
 
     @Bean
     public HikariDataSource dataSourceRead() {
@@ -47,7 +46,7 @@ public class DataSourceConfigRead extends HikariConfig {
             setPersistenceProviderClass(HibernatePersistenceProvider.class);
             setPersistenceUnitName(PERSISTENCE_UNIT_NAME);
             setPackagesToScan(MODEL_PACKAGE);
-            setJpaProperties(JPA_PROPERTIES);
+            setJpaProperties(JPA_READ_PROPERTIES);
         }};
     }
 
