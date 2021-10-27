@@ -12,11 +12,10 @@ for simplicity just run:
 
 the docker-compose.yml is already in the project which contains 2 PostgresSql in 2 different ports, with ```demo``` DataBase
 
-Note: you can always uninstall it as: ```docker-compose down``` if you needed to.
+> you can always uninstall it as: ```docker-compose down``` if you needed to.
 
 
 ---
-
 ## Spring Boot Setup
 From https://start.spring.io/ select **web**, **data-jpa**, **lombok**, **postgresDriver**
 Or Select the following share link:
@@ -239,4 +238,4 @@ But if you run this line you getting data from DB2:
 ```
  curl --request GET  http://localhost:8080/customer/1
 ```
-Note: you need to insert customer manually in DB2 since it has no pre customer. and we haven't setup Postgres Replication yet
+> you need to insert customer manually in DB2 since it has no pre customer. and we haven't setup Postgres Replication yet
