@@ -174,9 +174,9 @@ public class DataSourceConfigRead extends HikariConfig {
 
 Read and Write repositories should be in a separated packages :
 
-Write: ```com.ehsaniara.multidatasource.repository.writeRepository```
+  +  Write: ```com.ehsaniara.multidatasource.repository.writeRepository```
 
-Read: ```com.ehsaniara.multidatasource.repository.readRepository```
+  +  Read: ```com.ehsaniara.multidatasource.repository.readRepository```
 
 you also need to set:
 ```java
