@@ -41,13 +41,13 @@ public class DataSourceConfigWrite extends HikariConfigWrite {
     public LocalContainerEntityManagerFactoryBean entityManagerFactoryWrite(
             final HikariDataSource dataSourceWrite) {
 
-        return new LocalContainerEntityManagerFactoryBean() {{
-            setDataSource(dataSourceWrite);
-            setPersistenceProviderClass(HibernatePersistenceProvider.class);
-            setPersistenceUnitName(PERSISTENCE_UNIT_NAME);
-            setPackagesToScan(MODEL_PACKAGE);
-            setJpaProperties(JPA_WRITE_PROPERTIES);
-        }};
+        LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
+        factoryBean.setDataSource(dataSourceWrite);
+        factoryBean.setPersistenceProviderClass(HibernatePersistenceProvider.class);
+        factoryBean.setPersistenceUnitName("write");
+        factoryBean.setPackagesToScan(MODEL_PACKAGE);
+        factoryBean.setJpaProperties(jpaWriteProperties);
+        return factoryBean;
     }
 
     @Bean

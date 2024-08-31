@@ -41,13 +41,14 @@ public class DataSourceConfigRead extends HikariConfigRead {
     public LocalContainerEntityManagerFactoryBean entityManagerFactoryRead(
             final HikariDataSource dataSourceRead) {
 
-        return new LocalContainerEntityManagerFactoryBean() {{
-            setDataSource(dataSourceRead);
-            setPersistenceProviderClass(HibernatePersistenceProvider.class);
-            setPersistenceUnitName(PERSISTENCE_UNIT_NAME);
-            setPackagesToScan(MODEL_PACKAGE);
-            setJpaProperties(JPA_READ_PROPERTIES);
-        }};
+        LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
+        factoryBean.setDataSource(dataSourceRead);
+        factoryBean.setPersistenceProviderClass(HibernatePersistenceProvider.class);
+        factoryBean.setPersistenceUnitName("read");
+        factoryBean.setPackagesToScan(MODEL_PACKAGE);
+        factoryBean.setJpaProperties(jpaReadProperties);
+
+        return factoryBean;
     }
 
     @Bean

@@ -103,9 +103,7 @@ DataSource Configurations for WriteDB:
         basePackages = {"com.ehsaniara.multidatasource.repository.writeRepository"}
 )
 public class DataSourceConfigWrite extends HikariConfig {
-
-    public final static String PERSISTENCE_UNIT_NAME = "write";
-
+    
     @Bean
     public HikariDataSource dataSourceWrite() {
         return new HikariDataSource(this);
@@ -121,7 +119,7 @@ public class DataSourceConfigWrite extends HikariConfig {
         entityManagerFactory.setDataSource(dataSourceWrite);
         entityManagerFactory.setDataSource(dataSourceWrite);
         entityManagerFactory.setPersistenceProviderClass(HibernatePersistenceProvider.class);
-        entityManagerFactory.setPersistenceUnitName(PERSISTENCE_UNIT_NAME);
+        entityManagerFactory.setPersistenceUnitName("write");
         entityManagerFactory.setPackagesToScan(MODEL_PACKAGE);
         entityManagerFactory.setJpaProperties(JPA_PROPERTIES);
         return entityManagerFactory;
@@ -147,9 +145,6 @@ DataSource Configurations for ReadDB:
 )
 public class DataSourceConfigRead extends HikariConfig {
 
-    public final static String PERSISTENCE_UNIT_NAME = "read";
-
-
     @Bean
     public HikariDataSource dataSourceRead() {
         return new HikariDataSource(this);
@@ -163,7 +158,7 @@ public class DataSourceConfigRead extends HikariConfig {
                 = new LocalContainerEntityManagerFactoryBean();
         factoryBean.setDataSource(dataSourceRead);
         factoryBean.setPersistenceProviderClass(HibernatePersistenceProvider.class);
-        factoryBean.setPersistenceUnitName(PERSISTENCE_UNIT_NAME);
+        factoryBean.setPersistenceUnitName("read");
         factoryBean.setPackagesToScan(MODEL_PACKAGE);
         factoryBean.setJpaProperties(JPA_PROPERTIES);
 
@@ -177,7 +172,7 @@ public class DataSourceConfigRead extends HikariConfig {
 }
 ```
 
-Read and Write repositories should be in a separated packages :
+Read and Write repositories should be in a separated packages:
 
   +  Write: ```com.ehsaniara.multidatasource.repository.writeRepository```
 
@@ -185,14 +180,11 @@ Read and Write repositories should be in a separated packages :
 
 you also need to set:
 ```java
-public final static String MODEL_PACKAGE = "com.ehsaniara.multidatasource.model";
-
-public final static Properties JPA_PROPERTIES = new Properties() {{
-    put("hibernate.dialect", "org.hibernate.dialect.PostgreSQL10Dialect");
-    put("hibernate.hbm2ddl.auto", "update");
-    put("hibernate.ddl-auto", "update");
-    put("show-sql", "true");
-}};
+    Properties properties = new Properties();
+    properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQL10Dialect");
+    properties.put("hibernate.hbm2ddl.auto", "update");
+    properties.put("hibernate.ddl-auto", "update");
+    properties.put("show-sql", "true");
 ```
 and the actual logic are in the service layer:
 
