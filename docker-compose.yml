@@ -1,7 +1,7 @@
 version: '3.1'
 services:
   db1:
-    image: postgres
+    image: postgres:15-alpine
     container_name: postgres1
     volumes:
       - ./postgres-data1:/var/lib/postgresql/data
