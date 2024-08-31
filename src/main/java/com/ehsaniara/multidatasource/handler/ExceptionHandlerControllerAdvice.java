@@ -78,19 +78,4 @@ public class ExceptionHandlerControllerAdvice {
         return error;
     }
 
-//    @Order(Ordered.HIGHEST_PRECEDENCE)
-//    @ExceptionHandler(Exception.class)
-//    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-//    @ResponseBody
-//    public ExceptionResponse handleException(final Exception exception,
-//                                             final HttpServletRequest request) {
-//        log.error(exception.getMessage());
-//
-//        ExceptionResponse error = new ExceptionResponse();
-//        error.setErrorMessage(exception.getMessage());
-//        error.setUrl(request.getRequestURI());
-//
-//        return error;
-//    }
-
 }

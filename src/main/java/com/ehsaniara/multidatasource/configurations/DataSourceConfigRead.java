@@ -1,5 +1,6 @@
 package com.ehsaniara.multidatasource.configurations;
 
+import com.ehsaniara.multidatasource.DemoApplication;
 import com.zaxxer.hikari.HikariDataSource;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -13,7 +14,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManagerFactory;
 
-import static com.ehsaniara.multidatasource.DemoApplication.MODEL_PACKAGE;
 
 /**
  * @author Jay Ehsaniara, Dec 30 2019
@@ -45,7 +45,7 @@ public class DataSourceConfigRead extends HikariConfigRead {
         factoryBean.setDataSource(dataSourceRead);
         factoryBean.setPersistenceProviderClass(HibernatePersistenceProvider.class);
         factoryBean.setPersistenceUnitName("read");
-        factoryBean.setPackagesToScan(MODEL_PACKAGE);
+        factoryBean.setPackagesToScan(DemoApplication.MODEL_PACKAGE);
         factoryBean.setJpaProperties(jpaReadProperties);
 
         return factoryBean;

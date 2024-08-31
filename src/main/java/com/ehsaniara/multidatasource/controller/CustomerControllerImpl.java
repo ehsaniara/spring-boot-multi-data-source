@@ -3,7 +3,12 @@ package com.ehsaniara.multidatasource.controller;
 import com.ehsaniara.multidatasource.handler.ResourceNotFoundException;
 import com.ehsaniara.multidatasource.model.Customer;
 import com.ehsaniara.multidatasource.service.CustomerService;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author Jay Ehsaniara, Dec 30 2019
@@ -17,18 +22,18 @@ public class CustomerControllerImpl {
         this.customerService = customerService;
     }
 
-    @RequestMapping(path = "/customer/{id}", method = RequestMethod.GET)
+    @GetMapping("/customer/{id}")
     public Customer getCustomer(@PathVariable("id") Long id) {
 
         return customerService.getCustomer(id).orElseThrow(() -> new ResourceNotFoundException("Invalid Customer"));
     }
 
-    @RequestMapping(path = "/customer", method = RequestMethod.POST)
+    @PostMapping("/customer")
     public Customer createCustomer(@RequestBody Customer customer) {
         return customerService.createCustomer(customer);
     }
 
-    @RequestMapping(path = "/customer", method = RequestMethod.PUT)
+    @PutMapping("/customer")
     public Customer updateCustomer(@RequestBody Customer customer) {
         return customerService.updateCustomer(customer);
     }
