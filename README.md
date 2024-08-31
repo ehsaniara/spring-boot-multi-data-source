@@ -115,13 +115,16 @@ public class DataSourceConfigWrite extends HikariConfig {
     public LocalContainerEntityManagerFactoryBean entityManagerFactoryWrite(
             final HikariDataSource dataSourceWrite) {
 
-        return new LocalContainerEntityManagerFactoryBean() {{
-            setDataSource(dataSourceWrite);
-            setPersistenceProviderClass(HibernatePersistenceProvider.class);
-            setPersistenceUnitName(PERSISTENCE_UNIT_NAME);
-            setPackagesToScan(MODEL_PACKAGE);
-            setJpaProperties(JPA_PROPERTIES);
-        }};
+        LocalContainerEntityManagerFactoryBean entityManagerFactory
+                = new LocalContainerEntityManagerFactoryBean();
+
+        entityManagerFactory.setDataSource(dataSourceWrite);
+        entityManagerFactory.setDataSource(dataSourceWrite);
+        entityManagerFactory.setPersistenceProviderClass(HibernatePersistenceProvider.class);
+        entityManagerFactory.setPersistenceUnitName(PERSISTENCE_UNIT_NAME);
+        entityManagerFactory.setPackagesToScan(MODEL_PACKAGE);
+        entityManagerFactory.setJpaProperties(JPA_PROPERTIES);
+        return entityManagerFactory;
     }
 
     @Bean
@@ -156,13 +159,15 @@ public class DataSourceConfigRead extends HikariConfig {
     public LocalContainerEntityManagerFactoryBean entityManagerFactoryRead(
             final HikariDataSource dataSourceRead) {
 
-        return new LocalContainerEntityManagerFactoryBean() {{
-            setDataSource(dataSourceRead);
-            setPersistenceProviderClass(HibernatePersistenceProvider.class);
-            setPersistenceUnitName(PERSISTENCE_UNIT_NAME);
-            setPackagesToScan(MODEL_PACKAGE);
-            setJpaProperties(JPA_PROPERTIES);
-        }};
+        LocalContainerEntityManagerFactoryBean factoryBean 
+                = new LocalContainerEntityManagerFactoryBean();
+        factoryBean.setDataSource(dataSourceRead);
+        factoryBean.setPersistenceProviderClass(HibernatePersistenceProvider.class);
+        factoryBean.setPersistenceUnitName(PERSISTENCE_UNIT_NAME);
+        factoryBean.setPackagesToScan(MODEL_PACKAGE);
+        factoryBean.setJpaProperties(JPA_PROPERTIES);
+
+        return factoryBean;
     }
 
     @Bean
