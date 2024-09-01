@@ -15,8 +15,23 @@ the docker-compose.yml is already in the project which contains 2 PostgresSql in
 > you can always uninstall it as: ```docker-compose down``` if you needed to.
 
 
+Now if run this line you create customer in postgres_primary:
+```
+curl -H "Content-Type: application/json" --request POST --data '{"name":"Jay"}'   http://localhost:8080/customer
+```
+OR
+```
+curl -H "Content-Type: application/json" --request PUT --data '{"id":1 , "name":"Jay ehsaniara"}'   http://localhost:8080/customer
+```
+
+But if you run this line you getting data from postgres_replica:
+```
+ curl --request GET  http://localhost:8080/customer/1
+```
+
+
 ---
-### Spring Boot Setup
+### Spring Boot Setup
 From https://start.spring.io/ select **web**, **data-jpa**, **lombok**, **postgresDriver**
 Or Select the following share link:
 Spring Initializr
@@ -61,15 +76,15 @@ Once you Generate and download the zip file, you should have similar POM file as
 
 for this demo I use HikariDataSource as a default connection pool library by Spring Boot 2.2.2
 we need to have 2 separate DataSource and EntityManager one for the Writes(Master/Primary) and one for Reads(Slave/Secondary).
+(application.yml)
 ```yaml
 
-application.yml
 spring:
   datasource-write:
     driver-class-name: org.postgresql.Driver
     jdbc-url: jdbc:postgresql://localhost:5432/demo
-    username: 'postgres_user_for_db_write'
-    password: 'you_password'
+    username: postgres
+    password: password
     platform: postgresql
     hikari:
       idle-timeout: 10000
@@ -80,8 +95,8 @@ spring:
   datasource-read:
     driver-class-name: org.postgresql.Driver
     jdbc-url: jdbc:postgresql://localhost:5433/demo
-    username: 'postgres_user_for_db_read'
-    password: 'you_password'
+    username: postgres
+    password: password
     platform: postgresql
     hikari:
       idle-timeout: 10000
@@ -179,6 +194,7 @@ Read and Write repositories should be in a separated packages:
   +  Read: ```com.ehsaniara.multidatasource.repository.readRepository```
 
 you also need to set:
+(write)
 ```java
     Properties properties = new Properties();
     properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQL10Dialect");
@@ -186,6 +202,15 @@ you also need to set:
     properties.put("hibernate.ddl-auto", "update");
     properties.put("show-sql", "true");
 ```
+
+on read config 
+```java
+    Properties properties = new Properties();
+    properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQL10Dialect");
+    properties.put("show-sql", "true");
+```
+Note: tables are automatically replicated
+
 and the actual logic are in the service layer:
 
 ```java
@@ -206,33 +231,12 @@ public class CustomerServiceImpl implements CustomerService {
 
     public Customer createCustomer(Customer customer) {
 
-        Assert.notNull(customer, "Invalid customer");
-        Assert.isNull(customer.getId(), "customer id should be null");
-        Assert.notNull(customer.getName(), "Invalid customer name");
-
         return customerWriteRepository.save(customer);
     }
 
     public Customer updateCustomer(Customer customer) {
 
-        Assert.notNull(customer, "Invalid customer");
-        Assert.notNull(customer.getId(), "Invalid customer id");
-
         return customerWriteRepository.save(customer);
     }
 }
 ```
-Now if run this line you create customer in DB1:
-```
-curl -H "Content-Type: application/json" --request POST --data '{"name":"Jay"}'   http://localhost:8080/customer
-```
-OR
-```
-curl -H "Content-Type: application/json" --request PUT --data '{"id":1 , "name":"Jay ehsaniara"}'   http://localhost:8080/customer
-```
-
-But if you run this line you getting data from DB2:
-```
- curl --request GET  http://localhost:8080/customer/1
-```
-> you need to insert customer manually in DB2 since it has no pre customer. and we haven't setup Postgres Replication yet

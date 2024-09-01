@@ -18,8 +18,6 @@ public class HikariConfigRead extends HikariConfig {
 
         Properties properties = new Properties();
         properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQL10Dialect");
-        properties.put("hibernate.hbm2ddl.auto", "update");
-        properties.put("hibernate.ddl-auto", "update");
         properties.put("show-sql", "true");
         this.jpaReadProperties = properties;
     }

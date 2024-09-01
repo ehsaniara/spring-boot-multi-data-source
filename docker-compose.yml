@@ -1,24 +1,62 @@
-version: '3.1'
+x-common:
+  &x-common
+  image: postgres:15
+  user: postgres
+  restart: always
+  healthcheck:
+    test: 'pg_isready -U user --dbname=postgres'
+    interval: 10s
+    timeout: 5s
+    retries: 5
+
 services:
-  db1:
-    image: postgres:15-alpine
-    container_name: postgres1
-    volumes:
-      - ./postgres-data1:/var/lib/postgresql/data
+
+#  spring-boot:
+#    build:
+#      context: .
+#    ports:
+#      - "8080:8080"
+#    depends_on:
+#      - postgres-primary
+#      - postgres-replica
+
+  postgres-primary:
+    <<: *x-common
     ports:
-      - "5432:5432"
+      - 5432:5432
     environment:
-      POSTGRES_PASSWORD: postgres_user_for_db_write
       POSTGRES_USER: postgres
       POSTGRES_DB: demo
-  db2:
-    image: postgres
-    container_name: postgres2
+      POSTGRES_PASSWORD: password
+      POSTGRES_HOST_AUTH_METHOD: "scram-sha-256\nhost replication all 0.0.0.0/0 md5"
+      POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256"
+    command: |
+      postgres 
+      -c wal_level=replica 
+      -c hot_standby=on 
+      -c max_wal_senders=10 
+      -c max_replication_slots=10 
+      -c hot_standby_feedback=on
     volumes:
-      - ./postgres-data2:/var/lib/postgresql/data
+      - ./00_init.sql:/docker-entrypoint-initdb.d/00_init.sql
+
+  postgres-replica:
+    <<: *x-common
     ports:
-      - "5433:5432"
+      - 5433:5432
     environment:
-      POSTGRES_PASSWORD: postgres_user_for_db_read
-      POSTGRES_USER: postgres
-      POSTGRES_DB: demo
+      PGUSER: replicator
+      PGPASSWORD: postgres_user_for_db_read
+    command: |
+      bash -c "
+      until pg_basebackup --pgdata=/var/lib/postgresql/data -R --slot=replication_slot --host=postgres-primary --port=5432
+      do
+      echo 'Waiting for primary to connect...'
+      sleep 1s
+      done
+      echo 'Backup done, starting replica...'
+      chmod 0700 /var/lib/postgresql/data
+      postgres
+      "
+    depends_on:
+      - postgres-primary

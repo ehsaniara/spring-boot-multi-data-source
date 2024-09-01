@@ -2,8 +2,8 @@ spring:
   datasource-write:
     driver-class-name: org.postgresql.Driver
     jdbc-url: jdbc:postgresql://localhost:5432/demo
-    username: 'postgres'
-    password: 'postgres_user_for_db_write'
+    username: postgres
+    password: password
     platform: postgresql
     hikari:
       idle-timeout: 10000
@@ -14,8 +14,8 @@ spring:
   datasource-read:
     driver-class-name: org.postgresql.Driver
     jdbc-url: jdbc:postgresql://localhost:5433/demo
-    username: 'postgres'
-    password: 'postgres_user_for_db_read'
+    username: postgres
+    password: password
     platform: postgresql
     hikari:
       idle-timeout: 10000
