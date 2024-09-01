@@ -22,5 +22,3 @@ spring:
       maximum-pool-size: 10
       minimum-idle: 5
       pool-name: ReadHikariPool
-
-

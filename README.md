@@ -1,6 +1,6 @@
 # Spring Boot 2 with Multiple DataSource 
 
-There are times that even having the best DataBase (PostgresSql, Oracle, MySql, .. ) Tuning can not be as help-full as Application Level separating Read and Writes
+There are times that even having the best DataBase (PostgresSql, Oracle, MySql,... ) Tuning can not be as help-full as Application Level separating Read and Writes
 
 Spring Boot 2.2.2 with Multiple DataSource 
 ## Postgres Setup
@@ -15,7 +15,7 @@ the docker-compose.yml is already in the project which contains 2 PostgresSql in
 > you can always uninstall it as: ```docker-compose down``` if you needed to.
 
 
-Now if run this line you create customer in postgres_primary:
+Now if run this line you create customer in **postgres_primary**:
 ```
 curl -H "Content-Type: application/json" --request POST --data '{"name":"Jay"}'   http://localhost:8080/customer
 ```
@@ -24,7 +24,7 @@ OR
 curl -H "Content-Type: application/json" --request PUT --data '{"id":1 , "name":"Jay ehsaniara"}'   http://localhost:8080/customer
 ```
 
-But if you run this line you getting data from postgres_replica:
+But if you run this line you getting data from **postgres_replica**:
 ```
  curl --request GET  http://localhost:8080/customer/1
 ```
@@ -34,8 +34,7 @@ But if you run this line you getting data from postgres_replica:
 ### Spring Boot Setup
 From https://start.spring.io/ select **web**, **data-jpa**, **lombok**, **postgresDriver**
 Or Select the following share link:
-Spring Initializr
-Initializr generates spring boot project with just what you need to start quickly!start.spring.io
+Spring Initializr generates spring boot project with just what you need to start quickly!start.spring.io
 
 Once you Generate and download the zip file, you should have similar POM file as:
 ```xml

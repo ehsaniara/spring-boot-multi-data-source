@@ -3,6 +3,8 @@ x-common:
   image: postgres:15
   user: postgres
   restart: always
+  networks:
+    - my-network
   healthcheck:
     test: 'pg_isready -U user --dbname=postgres'
     interval: 10s
@@ -10,15 +12,6 @@ x-common:
     retries: 5
 
 services:
-
-#  spring-boot:
-#    build:
-#      context: .
-#    ports:
-#      - "8080:8080"
-#    depends_on:
-#      - postgres-primary
-#      - postgres-replica
 
   postgres-primary:
     <<: *x-common
@@ -60,3 +53,7 @@ services:
       "
     depends_on:
       - postgres-primary
+
+networks:
+  my-network:
+    driver: bridge
